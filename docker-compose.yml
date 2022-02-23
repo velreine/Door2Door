@@ -1,0 +1,36 @@
+version: '3.4'
+
+services:
+  web:
+    image: velreine/d2d-web:latest # idk why the fuck it uses solution name when building from within vscode :-(
+    build:
+      context: Door2Door-Web/
+      dockerfile: Dockerfile
+
+    environment:
+      NODE_ENV: production
+    ports:
+      - 3000:80
+    networks:
+      - frontend
+  api:
+    image: velreine/d2d-api:latest
+    build:
+      context: Door2Door-API/
+      dockerfile: Dockerfile
+    ports:
+      - 5206:80
+    networks:
+      - backend
+      - frontend
+  db:
+    image: postgis/postgis:13-3.2-alpine
+    environment:
+      POSTGRES_PASSWORD: 12345
+    ports:
+      - 5432:5432
+    networks:
+      - backend
+networks:
+  backend:
+  frontend:
