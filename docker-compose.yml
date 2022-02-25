@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   web:
-    image: velreine/d2d-web:latest # idk why the fuck it uses solution name when building from within vscode :-(
+    image: velreine/d2d-web:latest
     build:
       context: Door2Door-Web/
       dockerfile: Dockerfile
