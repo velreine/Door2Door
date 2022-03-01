@@ -29,13 +29,14 @@ export class AppComponent {
       [55.42761923303025, 11.784800721781808],
     ]);
 
-    // Create a new feature group to contain our pane.
+    // Create a new feature group to contain our layers.
+    // Layers in the feature group as the name suggests shares features
+    // For our project this means the layers shares Lattitude/Longittude bounds.
     var featureGroup = L.featureGroup([]);
 
     // Create a new pane and set its Z-Index
     let floormap = map.createPane('floormap');
     floormap.style.zIndex = '400';
-
 
     var floormapImage = 'assets/bgang-floorplan.png';
     var floormapBounds = new L.LatLngBounds(
@@ -47,20 +48,15 @@ export class AppComponent {
       pane: 'floormap',
     });
 
-
     //let generatedRouteData = Anton.CallApiAndGetRoute('');
     //var generatedRouteLayer = L.geoJSON
     let m = new Geometry(GeometryType.Door, 'B26');
-    
-    L.geoJSON()
 
-
+    L.geoJSON();
 
     featureGroup.addLayer(floormapLayer);
 
     map.addLayer(floormapLayer);
-
-
 
     /*var tileLayer = L.tileLayer(
       '/assets/bgang-floorplan.png?s={s}&x={x}&y={y}&z={z}',
