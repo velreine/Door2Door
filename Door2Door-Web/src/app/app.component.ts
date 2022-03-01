@@ -19,8 +19,9 @@ export class AppComponent {
   ngAfterViewInit() {
     console.log('ngAfterViewInit();');
 
+    // This initializes the LeafLet map to bear near Ringsted, DK.
     var map = L.map('map', {
-      dragging: true,
+      dragging: true, // This enables the user to drag the map.
       zoomControl: true,
       maxZoom: 20,
       minZoom: 1,
@@ -44,10 +45,12 @@ export class AppComponent {
       [55.427610656891154, 11.784297446598194]
     );
 
+    // Create the floor map as an image overlay.
     var floormapLayer = L.imageOverlay(floormapImage, floormapBounds, {
       pane: 'floormap',
     });
 
+    // TODO: Work with GEO JSON from the api.
     //let generatedRouteData = Anton.CallApiAndGetRoute('');
     //var generatedRouteLayer = L.geoJSON
     let m = new Geometry(GeometryType.Door, 'B26');
