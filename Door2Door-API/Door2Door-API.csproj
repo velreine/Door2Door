@@ -8,7 +8,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3"/>
+        <PackageReference Include="Npgsql" Version="7.0.0-preview.1" />
+        <PackageReference Include="Npgsql.GeoJSON" Version="7.0.0-preview.1" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
     </ItemGroup>
 
 </Project>
