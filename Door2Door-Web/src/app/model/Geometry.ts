@@ -1,18 +1,7 @@
-import GeometryType from "./GeometryType";
+import { GeoJsonObject } from 'geojson';
 
-class Geometry {
+export abstract class Geometry {
 
-  public Name: string;
-
-  public Type: GeometryType;
-
-  public GeoJsonData: string;
-
-  constructor(type: GeometryType, name: string) {
-    this.Name = name;
-    this.Type = type;
-  }
+  constructor(public Geometry: GeoJsonObject) { }
 
 }
-
-export default Geometry;
