@@ -9,6 +9,7 @@ services:
 
     environment:
       NODE_ENV: production
+      API_URL: "http://api" # api because the docker dns resolution should be able to resolve api.
     ports:
       - 3000:80
     networks:
