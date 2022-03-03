@@ -62,7 +62,19 @@
 
 
   <ng-template #elseBlock>
-    <p>The environment variable API_URL is not set.</p>
+    <div class="container">
+      <div class="row">
+        <div class="col text-danger">
+          <h3>The variable environment.apiUrl is not set 😥, to define it either override /assets/env.js</h3>
+          <h3>Or if this is run via docker simply pass the -e flag along like so:</h3>
+          <p>Windows:</p>
+          <pre> docker run --name somename -e API_URL="http://api.example.com" someuser/somecontainer:sometag</pre>
+          <p>Linux:</p>
+          <pre> docker run --name somename -e API_URL='http://api.example.com' someuser/somecontainer:sometag</pre>
+        </div>
+      </div>
+    </div>
+
   </ng-template>
 
 </div>
