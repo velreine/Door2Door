@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Npgsql;
+using NpgsqlTypes;
 using System.Data;
 using NpgsqlTypes;
 
@@ -14,7 +15,7 @@ namespace Door2Door_API.Controllers
         public Door2DoorController(IConfiguration configuration)
         {
             connectionString = Environment.GetEnvironmentVariable("foo");
-            Console.WriteLine("connection: " + connectionString);
+            //connectionString = Environment.GetEnvironmentVariable("connectionstring");
 
             if (connectionString == null)
                 Console.WriteLine("No connectionstring");
@@ -24,20 +25,55 @@ namespace Door2Door_API.Controllers
             
         }
 
-        //[HttpGet("[controller]/get-route", Name = "GetRoute")]
-        [HttpGet("/get-route", Name = "GetRoute")]
-        public List<string> GetRoute()
+
+        [HttpGet("GetStartingPoint", Name = "GetStartingPoint")]
+        public string GetStartingPoint()
         {
-            List<string> routeGroup = new List<string>();
+            string startPoint = "";
             try
             {
                 using(NpgsqlConnection connection = new NpgsqlConnection(connectionString))
                 {
                     using (NpgsqlCommand pgSqlCommand = new NpgsqlCommand())
                     {
-                        pgSqlCommand.CommandText = "SELECT ST_AsGeoJSON(n.geom) from shitroute as n " +
-                                                    "join (select * from pgr_dijkstra('select id, source, target, cost from shitroute', 1, 12, false)) as route " +
-                                                    "on n.id = route.edge";
+                        pgSqlCommand.CommandText = "SELECT * FROM starting_point WHERE section = 'B'";
+
+                        pgSqlCommand.Connection = connection;
+                        if (connection.State != ConnectionState.Open)
+                            connection.Open();
+
+                        using (NpgsqlDataReader reader = pgSqlCommand.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                Console.WriteLine(reader.GetValue(0).ToString());
+                                startPoint = reader.GetValue(0).ToString();
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("The program made an oopsie :(");
+                Console.WriteLine(e.Message);
+            }
+            return startPoint;
+        }
+
+        [HttpGet("GetRoute", Name = "GetRoute")]
+        public List<string> GetRoute(string roomDestination)
+        {
+            List<string> routeGroup = new List<string>();
+            try
+            {
+                using (NpgsqlConnection connection = new NpgsqlConnection(connectionString))
+                {
+                    using (NpgsqlCommand pgSqlCommand = new NpgsqlCommand())
+                    {
+                        pgSqlCommand.CommandText = "SELECT * FROM GenerateRoute(@Room)";
+                        pgSqlCommand.Parameters.Add("@Room", NpgsqlDbType.Varchar).Value = roomDestination;
+
                         pgSqlCommand.Connection = connection;
                         if (connection.State != ConnectionState.Open)
                             connection.Open();
