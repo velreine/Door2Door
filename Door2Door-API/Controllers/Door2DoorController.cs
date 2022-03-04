@@ -12,6 +12,9 @@ namespace Door2Door_API.Controllers
     public class Door2DoorController : ControllerBase
     {
         private readonly IFactory<Room> roomFactory;
+
+        private readonly string connectionString;
+        
         // TODO: DELETE THIS!
         private const string CONNECTIONSTRING =
             "Server=192.168.1.102;Port=5432;Database=door2door;User Id=postgres;Password=12345;";
@@ -147,15 +150,7 @@ namespace Door2Door_API.Controllers
             command.Connection.Open();
             command.Prepare();
             using var reader = command.ExecuteReader();
-            // return reader.ReadFirstOrDefault(r => roomFactory.Build(r));
-            // return reader.ReadFirstOrDefault
-            var rooms = new List<Room>();
-            while (reader.Read())
-            {
-                return roomFactory.Build(reader);
-            }
-
-            return null!;
+            return reader.ReadFirstOrDefault(r => roomFactory.Build(r));
         }
     }
 }
