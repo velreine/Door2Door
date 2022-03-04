@@ -75,7 +75,19 @@ export class AppComponent {
       //style:
     });
 
-    // transform: rotate(-15deg) translateX(-70px) translateY(-70px) scaleX(1.08) scaleY(1.0)
+    //markerLocation = new LatLngExp
+    //11.78422327,55.42739002
+    var icon = new L.Icon.Default();
+    icon.options.shadowSize = [0, 0];
+    icon.options.imagePath = 'marker-icon.png';
+
+    var marker = L.marker([55.42739002, 11.78422327], {
+      title: 'You are here.',
+      pane: 'routePane',
+    });
+
+  
+    marker.addTo(map);
 
     featureGroup.addLayer(geoJsonLayer);
     featureGroup.addLayer(floormapLayer);
