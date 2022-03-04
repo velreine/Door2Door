@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Npgsql;
 using System.Data;
+using NpgsqlTypes;
 
 namespace Door2Door_API.Controllers
 {
@@ -17,9 +18,14 @@ namespace Door2Door_API.Controllers
 
             if (connectionString == null)
                 Console.WriteLine("No connectionstring");
+            
+            // Add spatial data to Npgsql's mapping.
+            NpgsqlConnection.GlobalTypeMapper.UseNetTopologySuite();
+            
         }
 
-        [HttpGet(Name = "GetRoute")]
+        //[HttpGet("[controller]/get-route", Name = "GetRoute")]
+        [HttpGet("/get-route", Name = "GetRoute")]
         public List<string> GetRoute()
         {
             List<string> routeGroup = new List<string>();
@@ -54,6 +60,45 @@ namespace Door2Door_API.Controllers
                 Console.WriteLine(e.Message);
             }
             return routeGroup;
+        }
+
+
+        [HttpGet("/nicky", Name = "nicky")]
+        public List<string> Nicky()
+        {
+
+            var tempConnString = "User Id=postgres; Database=door2door;Password=12345;Server=192.168.1.102;";
+
+            var conn = new NpgsqlConnection(tempConnString);
+            
+            conn.Open();
+
+            //var cmd = new NpgsqlCommand("get_room_by_id(:p1,:p2,:p3)", conn);
+            //var cmd = new NpgsqlCommand("nicky(?, ?, ?)", conn);
+            var cmd = new NpgsqlCommand("get_room_by_id", conn);
+            
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@room_id", NpgsqlDbType.Integer, 1);
+            cmd.Prepare();
+
+            var reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                int debug = 2;
+
+    
+                var id = reader.GetInt64("id");
+                var geometry = reader.GetValue("geom");
+                var roomType = reader.GetInt64("room_type");
+                var roomName = reader.GetString("room_name");
+
+            }
+            
+            
+            
+            
+            return new List<string>() { "foo", "bar" };
         }
     }
 }
