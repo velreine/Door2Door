@@ -1,6 +1,6 @@
 ﻿namespace Door2Door_API.Models.Interfaces;
 
-public interface IRoom
+public interface IRoomRepository : IRepository<Room>
 {
     
 }
