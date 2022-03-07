@@ -171,10 +171,50 @@ namespace Door2Door_API.Controllers
         }
 
 
+        [HttpGet("GetAllRooms", Name = "GetAllRooms")]
+        public async Task<ActionResult> GetAllRooms()
+        {
+
+            List<Room> rooms;
+            
+            try
+            {
+                using var connection = new NpgsqlConnection(CONNECTIONSTRING);
+                using var command = new NpgsqlCommand("get_all_rooms", connection);
+                command.Connection = connection;
+                command.CommandType = CommandType.StoredProcedure;
+                command.Connection.Open();
+                command.Prepare();
+                using var reader = command.ExecuteReader();
+
+                // Initialize list.
+                rooms = new List<Room>((int)reader.Rows);
+                
+                while (reader.Read())
+                {
+                    rooms.Add(roomFactory.Build(reader));
+                }
+
+                // Id => id,
+                
+                return Ok(rooms);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"The program done goofed! with error: {e.Message}" ,e);
+                return StatusCode((int)HttpStatusCode.InternalServerError, new
+                {
+                    message = "INTERNAL SERVER ERROR"
+                });
+            }
+        }
+        
         [HttpGet("GetRoomByIdCoolVersion", Name = "GetRoomCool")]
         public async Task<ActionResult> GetRoomByIdCoolVersion(long id)
         {
 
+            Console.WriteLine("Was the endpoint invoked???");
+            
             var room = this.GetRoomById(id);
 
             if (room != null)

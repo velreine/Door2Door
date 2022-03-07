@@ -8,15 +8,12 @@ export class Room extends Geometry {
 
   constructor(
     // Scalar fields.
-    public Id: Number,
-    public Name: string,
-    public Type: RoomType,
-    public Geometry: GeoJsonObject,
-
-    // One-To-Many(s)
-    public PointOfEntries?: PointOfEntry[]
+    public id: Number,
+    public name: string,
+    public type: RoomType,
+    public geometry: GeoJsonObject,
     ) {
-    super(Geometry);
+    super(geometry);
   }
 
 }

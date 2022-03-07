@@ -17,9 +17,9 @@ export class RoomService {
     { Id: '4', Name: 'room-service.ts', Geometry: null },
   ];
 
-  public GetAllRooms(): Promise<ApiRoomType[]> {
+  public GetAllRooms(): Promise<Room[]> {
     return this._http
-      .get<ApiRoomType[]>(environment.apiUrl + '/Door2Door/GetAllRooms', {
+      .get<Room[]>(environment.apiUrl + '/Door2Door/GetAllRooms', {
         headers: new HttpHeaders({
           'Access-Control-Allow-Origin': '*',
         }),
@@ -29,21 +29,11 @@ export class RoomService {
 
   public GetRoomById(id /*:number*/) {
     return this._http
-      .get<ApiRoomType>(
-        environment.apiUrl + '/Door2Door/GetRoomByIdCoolVersion',
-        {
-          headers: new HttpHeaders({
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Method': 'any',
-            'Access-Control-Allow-Header': '*',
-          }),
-          params: {
-            id: id,
-          },
-        }
-      )
+      .get<Room>(environment.apiUrl + '/Door2Door/GetRoomByIdCoolVersion', {
+        params: {
+          id: id,
+        },
+      })
       .toPromise();
   }
 }
-
-type ApiRoomType = Pick<Room, 'Id' | 'Geometry' | 'Name' | 'Type'>;

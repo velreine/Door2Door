@@ -104,12 +104,34 @@ export class AppComponent {
       this.apiUrlIsDefined = true;
     }
 
-    this._roomService.GetRoomById(5).then((data) => {
-      console.log('the fetched room data is:');
-      console.log(data);
-    }).catch((error) => {
-      alert('Something went wrong while trying to load a Room.');
-    });
+    this._roomService
+      .GetRoomById(5)
+      .then((data) => {
+        console.log('the fetched room data is:');
+        console.log(data);
+      })
+      .catch((error) => {
+        alert('Something went wrong while trying to load a Room.');
+      });
+
+    this._roomService
+      .GetAllRooms()
+      .then((data) => {
+        console.log('all rooms:');
+        console.log(data);
+
+        let options = data.map((room) => {
+          return {
+            value: room.id,
+            label: room.name,
+          };
+        });
+
+        this.destinations = options;
+      })
+      .catch((error) => {
+        alert('Something went wrong while trying to load all rooms...');
+      });
 
     // Load rooms.
     /*this._roomService.GetAllRooms()

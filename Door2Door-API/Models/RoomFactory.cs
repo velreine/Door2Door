@@ -14,10 +14,10 @@ public class RoomFactory : IFactory<Room>
         var res =  new Room
         {
             Id = (long)record["id"],
-            GeometryJsonString = (string)record["geom"],
+            Geometry = (string)record["geom"],
             //Geom = (GeoJSONObject)record["geom"],
-            RoomType = (long)record["room_type"],
-            RoomName = record["room_name"].ToString()
+            Type = (long)record["room_type"],
+            Name = record["room_name"].ToString()
         };
 
         return res;

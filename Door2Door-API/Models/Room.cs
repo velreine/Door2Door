@@ -12,9 +12,9 @@ public class Room : IRoom
     
     // Put the workload of converting it to a JSON string on the Database.
     // Makes it easier since converting Geometry Data Type to JSON String is hard in C#/.NET
-    public string GeometryJsonString { get; set; }
+    public string Geometry { get; set; }
     
     // Temp change when RoomType entity implemented
-    public long RoomType { get; set; }
-    public string RoomName { get; set; }
+    public long Type { get; set; }
+    public string Name { get; set; }
 }
