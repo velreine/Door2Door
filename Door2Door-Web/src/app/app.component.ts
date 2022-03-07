@@ -86,7 +86,6 @@ export class AppComponent {
       pane: 'routePane',
     });
 
-  
     marker.addTo(map);
 
     featureGroup.addLayer(geoJsonLayer);
@@ -96,7 +95,7 @@ export class AppComponent {
     map.addLayer(geoJsonLayer);
   }
 
-  constructor() {
+  constructor(private _roomService: RoomService) {
     console.log('app.component: constructed');
 
     console.log('API URL IS : ' + environment.apiUrl);
@@ -105,8 +104,15 @@ export class AppComponent {
       this.apiUrlIsDefined = true;
     }
 
+    this._roomService.GetRoomById(5).then((data) => {
+      console.log('the fetched room data is:');
+      console.log(data);
+    }).catch((error) => {
+      alert('Something went wrong while trying to load a Room.');
+    });
+
     // Load rooms.
-    RoomService.GetAllRooms()
+    /*this._roomService.GetAllRooms()
       .then((response) => {
         // Map rooms to select options.
         let options = response.map((room) => {
@@ -122,7 +128,7 @@ export class AppComponent {
       .catch((error) => {
         console.error(error);
         alert('Something went wrong.');
-      });
+      });*/
   }
 }
 //Test comment
