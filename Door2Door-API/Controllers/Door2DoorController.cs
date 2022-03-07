@@ -2,9 +2,12 @@
 using Npgsql;
 using NpgsqlTypes;
 using System.Data;
+using System.Net;
 using Door2Door_API.Models;
 using Door2Door_API.Models.Interfaces;
 using GeoJSON.Net;
+using GeoJSON.Net.Converters;
+using Newtonsoft.Json;
 using NpgsqlTypes;
 
 namespace Door2Door_API.Controllers
@@ -13,7 +16,7 @@ namespace Door2Door_API.Controllers
     [Route("[controller]")]
     public class Door2DoorController : ControllerBase
     {
-        private readonly IFactory<IRoom> roomFactory;
+        private readonly IFactory<Room> roomFactory;
 
         private readonly string connectionString;
         
@@ -21,7 +24,7 @@ namespace Door2Door_API.Controllers
         // For testing only. 
         private const string CONNECTIONSTRING =
             "Server=192.168.1.102;Port=5432;Database=door2door;User Id=postgres;Password=12345;";
-        public Door2DoorController(IConfiguration configuration)
+        public Door2DoorController()
         {
             connectionString = Environment.GetEnvironmentVariable("foo");
             roomFactory = new RoomFactory();
@@ -142,7 +145,7 @@ namespace Door2Door_API.Controllers
         }
 
         [HttpGet("GetRoomById", Name = "GetRoom")]
-        public IRoom GetRoomById(int id)
+        public Room? GetRoomById(long id)
         {
             try
             {
@@ -166,5 +169,21 @@ namespace Door2Door_API.Controllers
             }
 
         }
+
+
+        [HttpGet("GetRoomByIdCoolVersion", Name = "GetRoomCool")]
+        public async Task<ActionResult> GetRoomByIdCoolVersion(long id)
+        {
+
+            var room = this.GetRoomById(id);
+
+            if (room != null)
+            {
+                return Ok(room);
+            }
+            
+            return NotFound(new { message = $"The room with id: \"{id}\" was not found."});
+        }
+        
     }
 }

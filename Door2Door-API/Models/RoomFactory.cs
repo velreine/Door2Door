@@ -1,20 +1,25 @@
 ﻿using System.Data;
 using Door2Door_API.Models.Interfaces;
+using GeoJSON.Net;
 using NetTopologySuite.Geometries;
 using Npgsql;
 
 namespace Door2Door_API.Models;
 
-public class RoomFactory : IFactory<IRoom>
+public class RoomFactory : IFactory<Room>
 {
-    public IRoom Build(NpgsqlDataReader record)
+    public Room Build(NpgsqlDataReader record)
     {
-        return new Room
+        
+        var res =  new Room
         {
             Id = (long)record["id"],
-            Geometry = (Geometry)record["geom"],
+            GeometryJsonString = (string)record["geom"],
+            //Geom = (GeoJSONObject)record["geom"],
             RoomType = (long)record["room_type"],
             RoomName = record["room_name"].ToString()
         };
+
+        return res;
     }
 }
