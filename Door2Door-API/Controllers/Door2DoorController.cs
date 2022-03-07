@@ -2,6 +2,8 @@
 using Npgsql;
 using NpgsqlTypes;
 using System.Data;
+using Door2Door_API.Models;
+using Door2Door_API.Models.Interfaces;
 using GeoJSON.Net;
 using NpgsqlTypes;
 
@@ -11,11 +13,12 @@ namespace Door2Door_API.Controllers
     [Route("[controller]")]
     public class Door2DoorController : ControllerBase
     {
-        private readonly IFactory<Room> roomFactory;
+        private readonly IFactory<IRoom> roomFactory;
 
         private readonly string connectionString;
         
         // TODO: DELETE THIS!
+        // For testing only. 
         private const string CONNECTIONSTRING =
             "Server=192.168.1.102;Port=5432;Database=door2door;User Id=postgres;Password=12345;";
         public Door2DoorController(IConfiguration configuration)
@@ -102,6 +105,7 @@ namespace Door2Door_API.Controllers
         }
 
 
+        //TODO: DELETE THIS
         [HttpGet("/nicky", Name = "nicky")]
         public List<string> Nicky()
         {
@@ -134,23 +138,33 @@ namespace Door2Door_API.Controllers
 
             }
             
-            
-            
-            
             return new List<string>() { "foo", "bar" };
         }
 
         [HttpGet("GetRoomById", Name = "GetRoom")]
-        public Room GetRoomById(int id)
+        public IRoom GetRoomById(int id)
         {
-            using var connection = new NpgsqlConnection(CONNECTIONSTRING);
-            using var command = new NpgsqlCommand();
-            command.Connection = connection;
-            command.CommandText = $@"SELECT * FROM get_room_by_id({id})";
-            command.Connection.Open();
-            command.Prepare();
-            using var reader = command.ExecuteReader();
-            return reader.ReadFirstOrDefault(r => roomFactory.Build(r));
+            try
+            {
+                using var connection = new NpgsqlConnection(CONNECTIONSTRING);
+                using var command = new NpgsqlCommand("get_room_by_id", connection);
+                command.Connection = connection;
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue(":room_id", id);
+                command.Connection.Open();
+                command.Prepare();
+                using var reader = command.ExecuteReader();
+                var result = reader.ReadFirstOrDefault(r => roomFactory.Build(r));
+                return result;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(
+                    $"The program done goofed! with error: {e.Message}"
+                    ,e);
+                throw;
+            }
+
         }
     }
 }
