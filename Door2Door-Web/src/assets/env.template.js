@@ -1,4 +1,4 @@
-// This file is optimized for having values replaced via ensubst
+// This file is optimized for having values replaced via envsubst
 (function(window) {
   window.env = window.env || {};
 
