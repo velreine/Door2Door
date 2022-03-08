@@ -30,7 +30,8 @@
                 <ul>
                   <li>
                     <div>
-                      <img src="marker-icon.png" style="width: 25px; height: 41px;" class="legend-icon" alt="image of marker">
+                      <img src="marker-icon.png" style="width: 25px; height: 41px;" class="legend-icon"
+                        alt="image of marker">
                       You are here.
                     </div>
                     <!--🐸 You are here.-->
@@ -40,24 +41,26 @@
                 </ul>
               </div>
 
-              <div id="destinationSelector" class="mt-4">
-                <div class="form-group">
-                  <label for="destination">Please select your destination below</label>
-                  <select name="destination" id="destination" class="form-control">
+              <form [formGroup]="destinationForm" (ngSubmit)="onSubmit()">
+                <div id="destinationSelector" class="mt-4">
+                  <div class="form-group">
+                    <label for="destination">Please select your destination below</label>
+                    <select name="destination" formControlName="destinationId" id="destination" class="form-control">
 
-                    <option *ngFor="let destination of destinations; let i = index" [value]="destination.value">
-                      {{destination.label}}
-                    </option>
-                  </select>
+                      <option *ngFor="let destination of destinations; let i = index" [value]="destination.value">
+                        {{destination.label}}
+                      </option>
+                    </select>
+                  </div>
                 </div>
-              </div>
 
-              <!-- TODO: Send request to the API to compile the route here. -->
-              <div id="compileRouteButtonContainer" class="mt-2">
-                <div class="form-group">
-                  <button class="btn btn-block form-control btn-primary">Show route.</button>
+                <!-- TODO: Send request to the API to compile the route here. -->
+                <div id="compileRouteButtonContainer" class="mt-2">
+                  <div class="form-group">
+                    <button type="submit" class="btn btn-block form-control btn-primary">Show route.</button>
+                  </div>
                 </div>
-              </div>
+              </form>
 
             </div>
           </div>
