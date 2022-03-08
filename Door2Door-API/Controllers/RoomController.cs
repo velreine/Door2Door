@@ -32,7 +32,7 @@ namespace Door2Door_API.Controllers
         }
         
         [HttpGet("GetAllRooms", Name = "GetAllRooms")]
-        public async Task<ActionResult> GetAllRooms()
+        public async Task<ActionResult<IEnumerable<Room>>> GetAllRooms()
         {
             try
             {
@@ -51,7 +51,7 @@ namespace Door2Door_API.Controllers
         }
         
         [HttpGet("GetRoomById", Name = "GetRoomById")]
-        public async Task<ActionResult> GetRoomById(long id)
+        public async Task<ActionResult<Room>> GetRoomById(long id)
         {
             
             try
