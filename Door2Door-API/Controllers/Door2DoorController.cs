@@ -16,6 +16,7 @@ namespace Door2Door_API.Controllers
     [Route("[controller]")]
     public class Door2DoorController : ControllerBase
     {
+        private readonly IRoomRepository roomRepository;
         private readonly IFactory<Room> roomFactory;
 
         private readonly string connectionString;
@@ -24,8 +25,9 @@ namespace Door2Door_API.Controllers
         // For testing only. 
         private const string CONNECTIONSTRING =
             "Server=192.168.1.102;Port=5432;Database=door2door;User Id=postgres;Password=12345;";
-        public Door2DoorController()
+        public Door2DoorController(IRoomRepository roomRepository)
         {
+            this.roomRepository = roomRepository;
             connectionString = Environment.GetEnvironmentVariable("foo");
             roomFactory = new RoomFactory();
 
@@ -147,26 +149,28 @@ namespace Door2Door_API.Controllers
         [HttpGet("GetRoomById", Name = "GetRoom")]
         public Room? GetRoomById(long id)
         {
-            try
-            {
-                using var connection = new NpgsqlConnection(CONNECTIONSTRING);
-                using var command = new NpgsqlCommand("get_room_by_id", connection);
-                command.Connection = connection;
-                command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.AddWithValue(":room_id", id);
-                command.Connection.Open();
-                command.Prepare();
-                using var reader = command.ExecuteReader();
-                var result = reader.ReadFirstOrDefault(r => roomFactory.Build(r));
-                return result;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(
-                    $"The program done goofed! with error: {e.Message}"
-                    ,e);
-                throw;
-            }
+            // try
+            // {
+            //     using var connection = new NpgsqlConnection(CONNECTIONSTRING);
+            //     using var command = new NpgsqlCommand("get_room_by_id", connection);
+            //     command.Connection = connection;
+            //     command.CommandType = CommandType.StoredProcedure;
+            //     command.Parameters.AddWithValue(":room_id", id);
+            //     command.Connection.Open();
+            //     command.Prepare();
+            //     using var reader = command.ExecuteReader();
+            //     var result = reader.ReadFirstOrDefault(r => roomFactory.Build(r));
+            //     return result;
+            // }
+            // catch (Exception e)
+            // {
+            //     Console.WriteLine(
+            //         $"The program done goofed! with error: {e.Message}"
+            //         ,e);
+            //     throw;
+            // }
+
+            return null;
 
         }
 
@@ -175,27 +179,28 @@ namespace Door2Door_API.Controllers
         public async Task<ActionResult> GetAllRooms()
         {
 
-            List<Room> rooms;
+            // List<Room> rooms;
             
             try
             {
-                using var connection = new NpgsqlConnection(CONNECTIONSTRING);
-                using var command = new NpgsqlCommand("get_all_rooms", connection);
-                command.Connection = connection;
-                command.CommandType = CommandType.StoredProcedure;
-                command.Connection.Open();
-                command.Prepare();
-                using var reader = command.ExecuteReader();
-
-                // Initialize list.
-                rooms = new List<Room>((int)reader.Rows);
-                
-                while (reader.Read())
-                {
-                    rooms.Add(roomFactory.Build(reader));
-                }
-
-                // Id => id,
+                // using var connection = new NpgsqlConnection(CONNECTIONSTRING);
+                // using var command = new NpgsqlCommand("get_all_rooms", connection);
+                // command.Connection = connection;
+                // command.CommandType = CommandType.StoredProcedure;
+                // command.Connection.Open();
+                // command.Prepare();
+                // using var reader = command.ExecuteReader();
+                //
+                // // Initialize list.
+                // rooms = new List<Room>((int)reader.Rows);
+                //
+                // while (reader.Read())
+                // {
+                //     rooms.Add(roomFactory.Build(reader));
+                // }
+                //
+                // // Id => id,
+                var rooms = await roomRepository.GetAllAsync();
                 
                 return Ok(rooms);
             }
