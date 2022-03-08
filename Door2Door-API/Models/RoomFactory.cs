@@ -8,7 +8,7 @@ namespace Door2Door_API.Models;
 
 public class RoomFactory : IFactory<Room>
 {
-    public Room Build(NpgsqlDataReader record)
+    public Room Build(IDataReader record)
     {
         
         var res =  new Room

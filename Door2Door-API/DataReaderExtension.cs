@@ -1,12 +1,13 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System.Data;
+using System.Diagnostics.CodeAnalysis;
 using Npgsql;
 
 namespace Door2Door_API;
 
 public static class DataReaderExtension
 {
-    public static T ReadFirstOrDefault<T>([NotNull] this NpgsqlDataReader reader,
-        [NotNull] Func<NpgsqlDataReader, T> recordReader)
+    public static T ReadFirstOrDefault<T>([NotNull] this IDataReader reader,
+        [NotNull] Func<IDataRecord, T> recordReader)
     {
         if (reader == null)
         {

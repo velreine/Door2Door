@@ -1,8 +1,9 @@
-﻿using Npgsql;
+﻿using System.Data;
+using Npgsql;
 
 namespace Door2Door_API.Models.Interfaces;
 
 public interface IFactory<out T>
 {
-    T Build(NpgsqlDataReader dataRecord);
+    T Build(IDataReader dataRecord);
 }

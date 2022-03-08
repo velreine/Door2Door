@@ -25,8 +25,8 @@ var configuration = provider.GetRequiredService<IConfiguration>(); // For testin
 builder.Services.AddControllers();
 
 // Injecting the IDbConnection for NpgSql
-builder.Services.AddTransient<IDbConnection>(sp =>
-    new NpgsqlConnection(configuration.GetConnectionString("NpgSqlConnection")));
+builder.Services.AddScoped<IDbConnection>((sp =>
+    new NpgsqlConnection(configuration.GetConnectionString("NpgSqlConnection"))));
 
 // Register repositories here
 builder.Services.AddScoped<IRoomRepository, RoomRepository>();
