@@ -28,7 +28,7 @@ public class RoomRepository : BaseRepository, IRoomRepository
         return rooms;
     }
 
-    public async Task<Room> GetByIdAsync(int id)
+    public async Task<Room?> GetByIdAsync(int id)
     {
         const string query = "SELECT * FROM room WHERE id = :room_id";
         using var reader = await Connection.ExecuteReaderAsync(query, id);
@@ -37,10 +37,10 @@ public class RoomRepository : BaseRepository, IRoomRepository
             reader.ReadFirstOrDefault(r => factory.Build(r));
         }
 
-        return null!;
+        return null;
     }
 
-    public Room GetById(int id)
+    public Room? GetById(int id)
     {
         const string query = "SELECT * FROM room WHERE id = :room_id";
         using var reader = Connection.ExecuteReader(query, id);
@@ -49,7 +49,7 @@ public class RoomRepository : BaseRepository, IRoomRepository
             return reader.ReadFirstOrDefault(r => factory.Build(r));
         }
 
-        return null!;
+        return null;
     }
 
     public Task<IEnumerable<Room>> GetByTypeAsync(int typeId)
