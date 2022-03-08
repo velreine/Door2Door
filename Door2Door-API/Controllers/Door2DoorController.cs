@@ -26,7 +26,7 @@ namespace Door2Door_API.Controllers
             "Server=192.168.1.102;Port=5432;Database=door2door;User Id=postgres;Password=12345;";
         public Door2DoorController()
         {
-            connectionString = Environment.GetEnvironmentVariable("foo");
+            connectionString = Environment.GetEnvironmentVariable("connectionstring");
             roomFactory = new RoomFactory();
 
             if (connectionString == null)
@@ -48,8 +48,7 @@ namespace Door2Door_API.Controllers
                         pgSqlCommand.CommandText = "SELECT * FROM starting_point WHERE section = 'B'";
 
                         pgSqlCommand.Connection = connection;
-                        if (connection.State != ConnectionState.Open)
-                            connection.Open();
+                        pgSqlCommand.Connection.Open();
 
                         using (NpgsqlDataReader reader = pgSqlCommand.ExecuteReader())
                         {
@@ -84,8 +83,7 @@ namespace Door2Door_API.Controllers
                         pgSqlCommand.Parameters.Add("@Room", NpgsqlDbType.Varchar).Value = roomDestination;
 
                         pgSqlCommand.Connection = connection;
-                        if (connection.State != ConnectionState.Open)
-                            connection.Open();
+                        pgSqlCommand.Connection.Open();
 
                         using (NpgsqlDataReader reader = pgSqlCommand.ExecuteReader())
                         {
