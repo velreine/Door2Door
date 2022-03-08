@@ -1,14 +1,7 @@
 import { Component } from '@angular/core';
-
-//import { RoomService } from '../services/room-service.js'
-
 import { RoomService } from '../services/room-service';
 import * as L from 'leaflet';
-import { Geometry } from './model/Geometry';
-import { GeometryType } from './model/GeometryType';
-import { Room } from './model/Room';
-import { RoomType } from './model/RoomType';
-import { PointOfEntry } from './model/PointOfEntry';
+import { FormBuilder } from '@angular/forms';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -25,11 +18,40 @@ export class AppComponent {
     return this.apiUrlIsDefined;
   }
 
-  destinations = [];
+  public destinationForm = this._formBuilder.group({
+    destinationId: '',
+  });
+
+  public destinations = [];
 
   ngAfterViewInit() {
-    console.log('ngAfterViewInit();');
+    console.log('ngAfterViewInit()...');
+    this.initializeLeafletMap();
+    this.initializeAllRooms();
+  }
 
+  onSubmit(): void {
+    // Process destination data, and invoke API to get a route to the destination.
+    console.log('Data submitted', this.destinationForm.value);
+  }
+
+  constructor(
+    private _roomService: RoomService,
+    private _formBuilder: FormBuilder
+  ) {
+    console.log('app.component: constructed');
+
+    console.log('API URL IS : ' + environment.apiUrl);
+
+    if (environment.apiUrl) {
+      this.apiUrlIsDefined = true;
+    }
+
+    //this.initializeAllRooms();
+  }
+
+  private initializeLeafletMap() {
+    console.log('initializeLeafletMap()...');
     // This initializes the LeafLet map to bear near Ringsted, DK.
     var map = L.map('map', {
       dragging: true, // This enables the user to drag the map.
@@ -95,25 +117,8 @@ export class AppComponent {
     map.addLayer(geoJsonLayer);
   }
 
-  constructor(private _roomService: RoomService) {
-    console.log('app.component: constructed');
-
-    console.log('API URL IS : ' + environment.apiUrl);
-
-    if (environment.apiUrl) {
-      this.apiUrlIsDefined = true;
-    }
-
-    this._roomService
-      .GetRoomById(5)
-      .then((data) => {
-        console.log('the fetched room data is:');
-        console.log(data);
-      })
-      .catch((error) => {
-        alert('Something went wrong while trying to load a Room.');
-      });
-
+  private initializeAllRooms() {
+    console.log('am i invoked?');
     this._roomService
       .GetAllRooms()
       .then((data) => {
@@ -127,30 +132,12 @@ export class AppComponent {
           };
         });
 
+        console.log(options);
+
         this.destinations = options;
       })
       .catch((error) => {
         alert('Something went wrong while trying to load all rooms...');
       });
-
-    // Load rooms.
-    /*this._roomService.GetAllRooms()
-      .then((response) => {
-        // Map rooms to select options.
-        let options = response.map((room) => {
-          return {
-            value: room.Id,
-            label: room.Name,
-          };
-        });
-
-        this.destinations = options;
-        console.log(response);
-      })
-      .catch((error) => {
-        console.error(error);
-        alert('Something went wrong.');
-      });*/
   }
 }
-//Test comment

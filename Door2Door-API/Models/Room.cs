@@ -4,7 +4,7 @@ using NetTopologySuite.Geometries;
 
 namespace Door2Door_API.Models;
 
-public class Room : IRoom
+public class Room
 {
     public long Id { get; set; }
     //public Geometry Geometry { get; set; }
