@@ -1,4 +1,5 @@
 using System.Data;
+using Door2Door_API.ExceptionTypes;
 using Door2Door_API.Models.Interfaces;
 using GeoJSON.Net;
 using NetTopologySuite.Geometries;
@@ -16,6 +17,13 @@ public class RouteFactory : IFactory<Route>
         { 
             var geoData = (string)reader["st_asgeojson"];
             geometries.Add(geoData);
+        }
+
+        if (geometries.Count == 0)
+        {
+            throw new RouteBuildingException(
+                "The procedure did not return any geometries, which means a route could not be generated."
+                );
         }
 
         return new Route(geometries);

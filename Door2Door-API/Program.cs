@@ -2,6 +2,7 @@ using System.Data;
 using Door2Door_API.Models;
 using Door2Door_API.Models.Interfaces;
 using Npgsql;
+using RouteModel = Door2Door_API.Models.Route;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,10 +32,12 @@ builder.Services.AddTransient<IDbConnection>((sp =>
 // Register repositories here
 builder.Services.AddScoped<IRoomRepository, RoomRepository>();
 builder.Services.AddScoped<IRoomTypeRepository, RoomTypeRepository>();
+builder.Services.AddScoped<IRouteRepository, RouteRepository>();
 
 // DP injection for factory
 builder.Services.AddScoped<IFactory<Room>, RoomFactory>();
 builder.Services.AddScoped<IFactory<RoomType>, RoomTypeFactory>();
+builder.Services.AddScoped<IFactory<RouteModel>, RouteFactory>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
