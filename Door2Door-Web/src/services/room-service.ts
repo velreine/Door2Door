@@ -19,7 +19,7 @@ export class RoomService {
 
   public GetAllRooms(): Promise<Room[]> {
     return this._http
-      .get<Room[]>(environment.apiUrl + '/Door2Door/GetAllRooms', {
+      .get<Room[]>(environment.apiUrl + '/Room/GetAllRooms', {
         headers: new HttpHeaders({
           'Access-Control-Allow-Origin': '*',
         }),
@@ -27,9 +27,9 @@ export class RoomService {
       .toPromise();
   }
 
-  public GetRoomById(id /*:number*/) {
+  public GetRoomById(id /*:number*/) : Promise<Room> {
     return this._http
-      .get<Room>(environment.apiUrl + '/Door2Door/GetRoomByIdCoolVersion', {
+      .get<Room>(environment.apiUrl + '/Room/GetRoomById', {
         params: {
           id: id,
         },
