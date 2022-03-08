@@ -5,5 +5,5 @@ namespace Door2Door_API.Models.Interfaces;
 
 public interface IFactory<out T>
 {
-    T Build(IDataReader dataRecord);
+    T Build(IDataReader record);
 }

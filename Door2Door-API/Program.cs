@@ -25,14 +25,16 @@ var configuration = provider.GetRequiredService<IConfiguration>(); // For testin
 builder.Services.AddControllers();
 
 // Injecting the IDbConnection for NpgSql
-builder.Services.AddScoped<IDbConnection>((sp =>
+builder.Services.AddTransient<IDbConnection>((sp =>
     new NpgsqlConnection(configuration.GetConnectionString("NpgSqlConnection"))));
 
 // Register repositories here
 builder.Services.AddScoped<IRoomRepository, RoomRepository>();
+builder.Services.AddScoped<IRoomTypeRepository, RoomTypeRepository>();
 
 // DP injection for factory
 builder.Services.AddScoped<IFactory<Room>, RoomFactory>();
+builder.Services.AddScoped<IFactory<RoomType>, RoomTypeFactory>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

@@ -7,7 +7,7 @@ namespace Door2Door_API;
 public static class DataReaderExtension
 {
     public static T ReadFirstOrDefault<T>([NotNull] this IDataReader reader,
-        [NotNull] Func<IDataRecord, T> recordReader)
+        [NotNull] Func<IDataReader, T> recordReader)
     {
         if (reader == null)
         {

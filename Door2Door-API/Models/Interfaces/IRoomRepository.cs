@@ -1,6 +1,6 @@
 ﻿namespace Door2Door_API.Models.Interfaces;
 
-public interface IRoomRepository
+public interface IRoomRepository : IRepository, IEntityRepository<Room>
 {
-    Task<IEnumerable<Room>> GetAllAsync();
+    Task<IEnumerable<Room>> GetByTypeAsync(int typeId);
 }
