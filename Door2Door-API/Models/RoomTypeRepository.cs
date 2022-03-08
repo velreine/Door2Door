@@ -26,15 +26,10 @@ public class RoomTypeRepository : BaseRepository, IRoomTypeRepository
         return types;
     }
 
-    public Task<RoomType> GetByIdAsync(int id)
-    {
-        throw new NotImplementedException();
-    }
-
-    public RoomType GetById(int id)
+    public async Task<RoomType> GetByIdAsync(int id)
     {
         const string query = "SELECT * FROM room_type WHERE id = :type_id";
-        using var reader = Connection.ExecuteReader(query, id);
+        using var reader = await Connection.ExecuteReaderAsync(query, id);
         while (reader.Read())
         {
             return reader.ReadFirstOrDefault(r => factory.Build(r));
