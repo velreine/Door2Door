@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;
 
-namespace Door2Door_API.Test;
+namespace Door2Door_API.Test.Controllers;
 
 public class RouteControllerTest
 {

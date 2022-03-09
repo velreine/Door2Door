@@ -1,19 +1,18 @@
 using System.Threading.Tasks;
-using Xunit;
-using Moq;
 using Door2Door_API.Controllers;
 using Door2Door_API.Models;
 using Door2Door_API.Models.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Moq;
+using Xunit;
 
-
-namespace Door2Door_API.Test;
+namespace Door2Door_API.Test.Controllers;
 
 public class RoomControllerTest
 {
 
     // Arrange (for multiple)
-    public static readonly Room KnownExistingRoom = new Room()
+    private static readonly Room KnownExistingRoom = new Room()
     {
         //Well-Known-Byte (WKB) output from pgAdmin4:
         //0106000020110F000001000000010300000001000000090000001AEBD504D503344122863B79BD665C4149C16EFEDA0334417BD6E444C3665C411ABE06DEED033441BAE362F3C1665C41862AA68DF3033441DD6F9462C7665C414A564535EC03344133F535E8C7665C418F656647F1033441E3D597ABCC665C412761B8F64C0434410CE261B4C6665C41555BFE663B0434413DB6361FB6665C411AEBD504D503344122863B79BD665C41
@@ -39,7 +38,6 @@ public class RoomControllerTest
     [Fact]
     public void GetRoomById_ShouldReturnARoomWhenIdIsValid()
     {
-
         // Arrange
         var controller = new RoomController(GetMockRoomRepository());
         
