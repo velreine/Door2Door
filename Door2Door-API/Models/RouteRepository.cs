@@ -34,7 +34,7 @@ public class RouteRepository : BaseRepository,IRouteRepository
         using var reader = await Connection.ExecuteReaderAsync(query, new {id});
         while (reader.Read())
         {
-            startPoint = reader["geom"].ToString();
+            startPoint = reader.GetValue(0).ToString();
         }
 
         return startPoint;

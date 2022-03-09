@@ -19,6 +19,8 @@ export class AppComponent {
   private _routePane: HTMLElement;
   private _markerPane: HTMLElement;
 
+  // private _markerCoordinates: []
+
   isApiUrlDefined() {
     return this.apiUrlIsDefined;
   }
@@ -58,7 +60,6 @@ export class AppComponent {
         });
 
         response.Geometry.forEach((geoJsonObject) => {
-          //console.log(geoJsonObject);
 
           // Construct Geo JSON Layer.
           // Flip coordinates to order the used by Leaflet.
@@ -150,12 +151,8 @@ export class AppComponent {
     icon.options.shadowSize = [0, 0];
     icon.options.imagePath = 'marker-icon.png';
 
-    var marker = L.marker([55.42739002, 11.78422327], {
-      title: 'You are here.',
-      pane: 'markerPane',
-    });
-
-    marker.addTo(this._map);
+    // Gets the 'you are here' marker.
+    this.getStartingPoint()
 
     featureGroup.addLayer(geoJsonLayer);
     featureGroup.addLayer(floormapLayer);
@@ -186,5 +183,21 @@ export class AppComponent {
       .catch((error) => {
         alert('Something went wrong while trying to load all rooms...');
       });
+  }
+  private getStartingPoint() {
+    const id = 1; // Hard code for testing.
+    this._routeService
+    .GetStatringPoint(id)
+    .then((response) => {
+
+      L.geoJSON(response, {
+        pointToLayer: function (feature, latlng) {
+          return L.marker(latlng, {
+            title: 'You are here.',
+            pane: 'markerPane'
+          })
+        }
+      }).addTo(this._map);
+    });
   }
 }

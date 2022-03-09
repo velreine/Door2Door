@@ -27,7 +27,7 @@ export class RoomService {
       .toPromise();
   }
 
-  public GetRoomById(id /*:number*/) : Promise<Room> {
+  public GetRoomById(id: number) : Promise<Room> {
     return this._http
       .get<Room>(environment.apiUrl + '/Room/GetRoomById', {
         params: {

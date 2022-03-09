@@ -2,6 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Injectable } from '@angular/core';
 import { Route } from 'src/app/model/Route';
+import { GeoJsonObject } from 'geojson';
+
+type GeoJson = GeoJsonObject;
 
 @Injectable({
   providedIn: 'root',
@@ -40,4 +43,15 @@ export class RouteService {
         });
     });
   }
+
+  public GetStatringPoint(id: number) : Promise<GeoJson> {
+    return this._http
+    .get<GeoJson>(environment.apiUrl + '/Route/GetStartingPoint', {
+      params: {
+        id: id.toString(),
+      },
+    })
+    .toPromise();
+  }
+
 }
