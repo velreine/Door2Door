@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { RoomService } from '../services/room-service';
+import { RouteService } from 'src/services/route-service';
 import * as L from 'leaflet';
 import { FormBuilder } from '@angular/forms';
 import { environment } from 'src/environments/environment';
@@ -13,6 +14,8 @@ export class AppComponent {
   title = 'Door2Door-Web';
 
   private apiUrlIsDefined = false;
+
+  private _map: L.Map;
 
   isApiUrlDefined() {
     return this.apiUrlIsDefined;
@@ -31,12 +34,48 @@ export class AppComponent {
   }
 
   onSubmit(): void {
-    // Process destination data, and invoke API to get a route to the destination.
-    console.log('Data submitted', this.destinationForm.value);
+    let data = this.destinationForm.value;
+
+    // Ensure a destination is selected.
+    if (!data.destinationId) {
+      alert('Please select a destination first.');
+      return;
+    }
+
+    // If all is good, invoke the API.
+    this._routeService
+      .GetRouteTo(data.destinationId)
+      .then((response) => {
+        console.table(response);
+
+        response.Geometry.forEach((geoJsonObject) => {
+          //console.log(geoJsonObject);
+
+          // Construct Geo JSON Layer.
+          // Flip coordinates to order the used by Leaflet.
+          const layer = L.geoJSON(geoJsonObject, {
+            coordsToLatLng: function (coords) {
+              return new L.LatLng(coords[0], coords[1], coords[2]);
+            },
+          });
+
+          console.log('layer',layer);
+
+          // Add this layer to the map.
+          this._map.addLayer(layer);
+        });
+
+        //this._map.addLayer(L.geoJSON(response.Geometry));
+      })
+      .catch((error) => {
+        console.error(error);
+        alert('Something went wrong, it was not possible to generate a route.');
+      });
   }
 
   constructor(
     private _roomService: RoomService,
+    private _routeService: RouteService,
     private _formBuilder: FormBuilder
   ) {
     console.log('app.component: constructed');
@@ -53,7 +92,7 @@ export class AppComponent {
   private initializeLeafletMap() {
     console.log('initializeLeafletMap()...');
     // This initializes the LeafLet map to bear near Ringsted, DK.
-    var map = L.map('map', {
+    this._map = L.map('map', {
       dragging: true, // This enables the user to drag the map.
       zoomControl: true,
       maxZoom: 20,
@@ -69,10 +108,10 @@ export class AppComponent {
     var featureGroup = L.featureGroup([]);
 
     // Create a new pane and set its Z-Index
-    let floormapPane = map.createPane('floormapPane');
+    let floormapPane = this._map.createPane('floormapPane');
     floormapPane.style.zIndex = '400';
 
-    let routePane = map.createPane('routePane');
+    let routePane = this._map.createPane('routePane');
     routePane.style.zIndex = '500';
 
     var floormapImage = 'assets/bgang_georeferenced.png';
@@ -108,13 +147,13 @@ export class AppComponent {
       pane: 'routePane',
     });
 
-    marker.addTo(map);
+    marker.addTo(this._map);
 
     featureGroup.addLayer(geoJsonLayer);
     featureGroup.addLayer(floormapLayer);
 
-    map.addLayer(floormapLayer);
-    map.addLayer(geoJsonLayer);
+    this._map.addLayer(floormapLayer);
+    //this._map.addLayer(geoJsonLayer); TODO : Remove when testing is done.
   }
 
   private initializeAllRooms() {
