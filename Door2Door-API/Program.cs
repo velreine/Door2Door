@@ -43,6 +43,9 @@ builder.Services.AddScoped<IFactory<RouteModel>, RouteFactory>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Register PostGIS Type-mappings for Npgsql
+NpgsqlConnection.GlobalTypeMapper.UseNetTopologySuite();
+
 
 var app = builder.Build();
 

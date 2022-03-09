@@ -28,7 +28,7 @@ namespace Door2Door_API.Controllers
 
             if (connectionString == null)
                 Console.WriteLine("No connectionstring");
-            NpgsqlConnection.GlobalTypeMapper.UseNetTopologySuite();
+            
         }
         
         [HttpGet("GetAllRooms", Name = "GetAllRooms")]
