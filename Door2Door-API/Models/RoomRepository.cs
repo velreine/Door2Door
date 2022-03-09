@@ -30,21 +30,17 @@ public class RoomRepository : BaseRepository, IRoomRepository
 
     public async Task<Room?> GetByIdAsync(long id)
     {
-        const string query = "SELECT * FROM get_room_by_id(bigint :id)";
-        using var reader = await Connection.ExecuteReaderAsync(query, id);
-        while (reader.Read())
-        {
-            return reader.ReadFirstOrDefault(r => factory.Build(r));
-        }
-
-        return null;
+        const string query = "SELECT * FROM get_room_by_id(:id)";
+        using var reader = await Connection.ExecuteReaderAsync(query, new {id});
+        
+        return reader.ReadFirstOrDefault(r => factory.Build(r));
     }
 
     public async Task<IEnumerable<Room>> GetByTypeAsync(long typeId)
     {
         var rooms = new List<Room>();
-        const string query = "SELECT * FROM get_all_rooms_by_type(bigint :id)";
-        using var reader = await Connection.ExecuteReaderAsync(query, typeId);
+        const string query = "SELECT * FROM get_all_rooms_by_type(:typeId)";
+        using var reader = await Connection.ExecuteReaderAsync(query, new{typeId});
         while (reader.Read())
         {
             rooms.Add(factory.Build(reader));
