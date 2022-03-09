@@ -26,4 +26,17 @@ public class RouteRepository : BaseRepository,IRouteRepository
         
         return _routeFactory.Build(reader);
     }
+
+    public async Task<string?> GetStartingPoint(long id)
+    {
+        var startPoint = "";
+        const string query = "SELECT * FROM getstartingpoint(:id)";
+        using var reader = await Connection.ExecuteReaderAsync(query, new {id});
+        while (reader.Read())
+        {
+            startPoint = reader["geom"].ToString();
+        }
+
+        return startPoint;
+    }
 }

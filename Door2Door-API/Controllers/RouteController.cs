@@ -39,6 +39,26 @@ public class RouteController : ControllerBase
         
     }
     
+    [HttpGet("GetStartingPoint", Name = "GetStartingPoint")]
+    public async Task<ActionResult<string>> GetStartingPoint(long id)
+    {
+        try
+        {
+            var startingPoint = await _routeRepository.GetStartingPoint(id);
+
+            return Ok(startingPoint);
+        }
+        catch (RouteBuildingException exception)
+        {
+            return StatusCode((int)HttpStatusCode.UnprocessableEntity, new { message = exception.Message });
+        }
+        catch (Exception exception)
+        {
+            return StatusCode((int)HttpStatusCode.InternalServerError, new { message = exception.Message });
+        }
+        
+    }
+    
 /*    [HttpGet("GetStartingPoint", Name = "GetStartingPoint")]
     public string GetStartingPoint()
     {
