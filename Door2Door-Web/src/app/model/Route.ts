@@ -18,8 +18,9 @@ export class Route {
         return [coord[1], coord[0]];
       });
 
-      obj.coordinates = reversedCoordinates;
+      //obj.coordinates = reversedCoordinates;
 
+      console.log('obj.coordinates', obj.coordinates);
       console.log('reversedCoordinates', reversedCoordinates);
     });
 

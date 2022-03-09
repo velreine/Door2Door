@@ -16,6 +16,8 @@ export class AppComponent {
   private apiUrlIsDefined = false;
 
   private _map: L.Map;
+  private _routePane: HTMLElement;
+  private _markerPane: HTMLElement;
 
   isApiUrlDefined() {
     return this.apiUrlIsDefined;
@@ -48,18 +50,21 @@ export class AppComponent {
       .then((response) => {
         console.table(response);
 
+        // Clear the "route" pane, so the old route is effectively removed.
+        this._map.eachLayer((layer) => {
+          if (layer.getPane() === this._routePane) {
+            this._map.removeLayer(layer);
+          }
+        });
+
         response.Geometry.forEach((geoJsonObject) => {
           //console.log(geoJsonObject);
 
           // Construct Geo JSON Layer.
           // Flip coordinates to order the used by Leaflet.
           const layer = L.geoJSON(geoJsonObject, {
-            coordsToLatLng: function (coords) {
-              return new L.LatLng(coords[0], coords[1], coords[2]);
-            },
+            pane: 'routePane',
           });
-
-          console.log('layer',layer);
 
           // Add this layer to the map.
           this._map.addLayer(layer);
@@ -111,8 +116,11 @@ export class AppComponent {
     let floormapPane = this._map.createPane('floormapPane');
     floormapPane.style.zIndex = '400';
 
-    let routePane = this._map.createPane('routePane');
-    routePane.style.zIndex = '500';
+    this._routePane = this._map.createPane('routePane');
+    this._routePane.style.zIndex = '500';
+
+    this._markerPane = this._map.createPane('markerPane');
+    this._markerPane.style.zIndex = '550';
 
     var floormapImage = 'assets/bgang_georeferenced.png';
 
@@ -144,7 +152,7 @@ export class AppComponent {
 
     var marker = L.marker([55.42739002, 11.78422327], {
       title: 'You are here.',
-      pane: 'routePane',
+      pane: 'markerPane',
     });
 
     marker.addTo(this._map);
