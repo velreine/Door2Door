@@ -56,7 +56,7 @@ namespace Door2Door_API.Controllers
             
             try
             {
-                var room = await roomRepository.GetByIdAsync((int)id);
+                var room = await roomRepository.GetByIdAsync(id);
                 
                 if (room is null) return NotFound(new { message = $"The room with id: \"{id}\" was not found." });
 
