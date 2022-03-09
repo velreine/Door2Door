@@ -1,6 +1,7 @@
 using System.Net;
 using Door2Door_API.ExceptionTypes;
 using Door2Door_API.Models;
+using Door2Door_API.Models.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using RouteModel = Door2Door_API.Models.Route;
 
@@ -10,12 +11,11 @@ namespace Door2Door_API.Controllers;
 [Route("[controller]")]
 public class RouteController : ControllerBase
 {
-
-    private RouteRepository _routeRepository;
+    private readonly IRouteRepository _routeRepository;
     
-    public RouteController(RouteRepository routeRepository)
+    public RouteController(IRouteRepository routeRepository)
     {
-        this._routeRepository = routeRepository;
+        _routeRepository = routeRepository;
     }
     
     [HttpGet("GetRoute", Name = "GetRoute")]
@@ -24,12 +24,17 @@ public class RouteController : ControllerBase
         try
         {
             var route = await _routeRepository.GetRouteTo(destinationRoomId);
-            
+
             return Ok(route);
         }
         catch (RouteBuildingException exception)
         {
             return StatusCode((int)HttpStatusCode.UnprocessableEntity, new { message = exception.Message });
+        }
+        catch (Exception exception)
+        {
+            //return StatusCode((int)HttpStatusCode.InternalServerError, new { message = "Internal Server Error" });
+            return StatusCode((int)HttpStatusCode.InternalServerError, new { message = exception.Message });
         }
         
     }

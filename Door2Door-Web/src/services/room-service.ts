@@ -7,7 +7,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class RoomService {
-  constructor(private _http: HttpClient) {}
+  constructor(private _http: HttpClient) { }
 
   private static mockRoomData = [
     { Id: '0', Name: 'Det', Geometry: null },
