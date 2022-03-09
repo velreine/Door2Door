@@ -2,5 +2,5 @@
 
 public interface IRoomRepository : IRepository, IEntityRepository<Room>
 {
-    Task<IEnumerable<Room>> GetByTypeAsync(int typeId);
+    Task<IEnumerable<Room>> GetByTypeAsync(long typeId);
 }

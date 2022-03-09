@@ -26,7 +26,7 @@ public class RoomTypeRepository : BaseRepository, IRoomTypeRepository
         return types;
     }
 
-    public async Task<RoomType> GetByIdAsync(int id)
+    public async Task<RoomType> GetByIdAsync(long id)
     {
         const string query = "SELECT * FROM room_type WHERE id = :type_id";
         using var reader = await Connection.ExecuteReaderAsync(query, id);
