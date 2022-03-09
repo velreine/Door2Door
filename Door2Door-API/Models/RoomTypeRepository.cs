@@ -30,11 +30,6 @@ public class RoomTypeRepository : BaseRepository, IRoomTypeRepository
     {
         const string query = "SELECT * FROM room_type WHERE id = :type_id";
         using var reader = await Connection.ExecuteReaderAsync(query, id);
-        while (reader.Read())
-        {
-            return reader.ReadFirstOrDefault(r => factory.Build(r));
-        }
-
-        return null!;
+        return reader.ReadFirstOrDefault(r => factory.Build(r));
     }
 }
