@@ -29,10 +29,12 @@ public class RouteController : ControllerBase
         }
         catch (RouteBuildingException exception)
         {
-            return StatusCode((int)HttpStatusCode.UnprocessableEntity, new { message = exception.Message });
+            return NotFound(new { message = exception.Message });
         }
         catch (Exception exception)
         {
+            // TODO: Can exception handling be mapped to responses somewhere globally?
+            // This could return the actual exception in dev, and "Internal Server Error" in prod.
             //return StatusCode((int)HttpStatusCode.InternalServerError, new { message = "Internal Server Error" });
             return StatusCode((int)HttpStatusCode.InternalServerError, new { message = exception.Message });
         }
