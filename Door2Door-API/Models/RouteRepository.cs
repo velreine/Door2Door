@@ -19,7 +19,7 @@ public class RouteRepository : BaseRepository,IRouteRepository
 
     public async Task<Route> GetRouteTo(long roomId)
     {
-        const string query = "SELECT * FROM GenerateRoute(@RoomId)";
+        const string query = "SELECT * FROM GenerateRoute(bigint @RoomId)";
         using var reader = await Connection.ExecuteReaderAsync(query, roomId);
         
         return _routeFactory.Build(reader);
