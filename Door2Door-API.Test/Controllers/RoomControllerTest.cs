@@ -38,7 +38,6 @@ public class RoomControllerTest
     [Fact]
     public void GetRoomById_ShouldReturnARoomWhenIdIsValid()
     {
-
         // Arrange
         var controller = new RoomController(GetMockRoomRepository());
         
