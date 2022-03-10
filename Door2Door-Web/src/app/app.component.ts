@@ -4,6 +4,8 @@ import { RouteService } from 'src/services/route-service';
 import * as L from 'leaflet';
 import { FormBuilder } from '@angular/forms';
 import { environment } from 'src/environments/environment';
+import { Idle, DEFAULT_INTERRUPTSOURCES } from '@ng-idle/core';
+import { NotificationService } from 'src/services/notification-service';
 
 @Component({
   selector: 'app-root',
@@ -53,25 +55,19 @@ export class AppComponent {
         console.table(response);
 
         // Clear the "route" pane, so the old route is effectively removed.
-        this._map.eachLayer((layer) => {
-          if (layer.getPane() === this._routePane) {
-            this._map.removeLayer(layer);
-          }
-        });
+        this.clearRoute();
 
         response.Geometry.forEach((geoJsonObject) => {
-
           // Construct Geo JSON Layer.
           // Flip coordinates to order the used by Leaflet.
           const layer = L.geoJSON(geoJsonObject, {
             pane: 'routePane',
           });
-
           // Add this layer to the map.
           this._map.addLayer(layer);
         });
 
-        //this._map.addLayer(L.geoJSON(response.Geometry));
+        this.startIdleTimer();
       })
       .catch((error) => {
         console.error(error);
@@ -82,7 +78,9 @@ export class AppComponent {
   constructor(
     private _roomService: RoomService,
     private _routeService: RouteService,
-    private _formBuilder: FormBuilder
+    private _formBuilder: FormBuilder,
+    private _idle: Idle,
+    private _notify: NotificationService
   ) {
     console.log('app.component: constructed');
 
@@ -200,4 +198,38 @@ export class AppComponent {
       }).addTo(this._map);
     });
   }
+
+  //Starts a timer that reacts to a user going idle and clears the generated route from the map 
+  private startIdleTimer() {
+    this._idle.setIdle(5);
+    this._idle.setTimeout(5);
+    this._idle.setInterrupts(DEFAULT_INTERRUPTSOURCES);
+
+    this._idle.onIdleStart.subscribe(() => {
+      console.log("You are now idle.");
+    });
+
+    this._idle.onIdleEnd.subscribe(() => {
+      console.log("No longer idle.");
+      this._idle.watch();
+    });
+
+    this._idle.onTimeout.subscribe(() => {
+      console.log("Timed out.");
+      this.clearRoute();
+      this._notify.showInfo("Route cleared due to inactivity", "Door2Door");
+    });
+    
+    this._idle.watch();
+  }
+
+  //Removes the route pane from the map
+  private clearRoute() {
+    this._map.eachLayer((layer) => {
+      if (layer.getPane() === this._routePane) {
+        this._map.removeLayer(layer);
+      }
+    });
+  }
+  
 }
