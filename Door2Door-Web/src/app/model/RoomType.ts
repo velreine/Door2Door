@@ -1,7 +1,7 @@
 export class RoomType {
   constructor(
     // Scalar fields.
-    public id: Number,
-    public name: Text
+    public id: number,
+    public name: string
   ) {}
 }
