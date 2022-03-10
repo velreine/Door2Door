@@ -11,22 +11,10 @@ namespace Door2Door_API.Controllers
     [Route("[controller]")]
     public class RoomController : ControllerBase
     {
-        private readonly IRoomRepository roomRepository;
-
-        private readonly string connectionString;
-        
-        // TODO: DELETE THIS!
-        // For testing only. 
-        private const string CONNECTIONSTRING =
-            "Server=192.168.1.102;Port=5432;Database=door2door;User Id=postgres;Password=12345;";
+        private readonly IRoomRepository _roomRepository;
         public RoomController(IRoomRepository roomRepository)
         {
-            this.roomRepository = roomRepository;
-            connectionString = Environment.GetEnvironmentVariable("foo");
-
-            if (connectionString == null)
-                Console.WriteLine("No connectionstring");
-            
+            this._roomRepository = roomRepository;
         }
         
         [HttpGet("GetAllRooms", Name = "GetAllRooms")]
@@ -34,7 +22,7 @@ namespace Door2Door_API.Controllers
         {
             try
             {
-                var rooms = await roomRepository.GetAllAsync();
+                var rooms = await _roomRepository.GetAllAsync();
                 
                 return Ok(rooms);
             }
@@ -54,7 +42,7 @@ namespace Door2Door_API.Controllers
             
             try
             {
-                var room = await roomRepository.GetByIdAsync(id);
+                var room = await _roomRepository.GetByIdAsync(id);
                 
                 if (room is null) return NotFound(new { message = $"The room with id: \"{id}\" was not found." });
 

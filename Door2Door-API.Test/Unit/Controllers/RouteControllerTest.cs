@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;
 
-namespace Door2Door_API.Test.Controllers;
+namespace Door2Door_API.Test.Unit.Controllers;
 
 public class RouteControllerTest
 {
@@ -41,7 +41,7 @@ public class RouteControllerTest
         // Assert
         var actualStatusCode = ((task.Result as ObjectResult)!).StatusCode;
         Assert.Equal((int)HttpStatusCode.InternalServerError, actualStatusCode);
-        Assert.IsType<NotFoundObjectResult>(task.Result);
+        Assert.IsType<ObjectResult>(task.Result);
     }
     
 }

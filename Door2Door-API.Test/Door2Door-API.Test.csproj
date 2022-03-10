@@ -26,4 +26,8 @@
       <ProjectReference Include="..\Door2Door-API\Door2Door-API.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Unit" />
+    </ItemGroup>
+
 </Project>

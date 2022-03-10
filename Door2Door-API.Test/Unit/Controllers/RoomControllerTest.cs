@@ -3,14 +3,29 @@ using Door2Door_API.Controllers;
 using Door2Door_API.Models;
 using Door2Door_API.Models.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Xunit;
 
-namespace Door2Door_API.Test.Controllers;
+namespace Door2Door_API.Test.Unit.Controllers;
 
 public class RoomControllerTest
 {
 
+    private readonly IFactory<Room> _roomFactory;
+
+    public RoomControllerTest()
+    {
+        // Setup DI Container.
+        var services = new ServiceCollection();
+        
+        services.AddTransient<IFactory<Room>, RoomFactory>();
+
+        var provider = services.BuildServiceProvider();
+        
+        _roomFactory = provider.GetService<IFactory<Room>>()!;
+    }
+    
     // Arrange (for multiple)
     private static readonly Room KnownExistingRoom = new Room()
     {
@@ -24,10 +39,6 @@ public class RoomControllerTest
         Type = 1, // classroom?
     };
     
-    
-    public RoomControllerTest() { }
-
-
     private static IRoomRepository GetMockRoomRepository()
     { 
         var mockRepository = new Mock<IRoomRepository>();
@@ -39,7 +50,7 @@ public class RoomControllerTest
     public void GetRoomById_ShouldReturnARoomWhenIdIsValid()
     {
         // Arrange
-        var controller = new RoomController(GetMockRoomRepository());
+        var controller = new RoomController(GetMockRoomRepository(), this._roomFactory);
         
         // Act
         var room = controller.GetRoomById(KnownExistingRoom.Id);
@@ -53,7 +64,7 @@ public class RoomControllerTest
     public async void GetRoomById_ShouldReturn404WhenIdIsInvalid()
     {
         // Arrange
-        var controller = new RoomController(GetMockRoomRepository());
+        var controller = new RoomController(GetMockRoomRepository(), this._roomFactory);
         
         // Act
         var task = await controller.GetRoomById(-13839819389); // bogus id.
