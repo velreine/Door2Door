@@ -3,7 +3,6 @@ using Door2Door_API.Controllers;
 using Door2Door_API.Models;
 using Door2Door_API.Models.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Xunit;
 
