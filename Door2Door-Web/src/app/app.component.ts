@@ -182,12 +182,12 @@ export class AppComponent {
         alert('Something went wrong while trying to load all rooms...');
       });
   }
+
   private getStartingPoint() {
     const id = 1; // Hard code for testing.
     this._routeService
-    .GetStatringPoint(id)
+    .GetStartingPoint(id)
     .then((response) => {
-
       L.geoJSON(response, {
         pointToLayer: function (feature, latlng) {
           return L.marker(latlng, {
@@ -196,6 +196,9 @@ export class AppComponent {
           })
         }
       }).addTo(this._map);
-    });
+    }).catch((error) => {
+      console.log(error);
+      alert('Something went wrong with getting the starting point marker..');
+    });;
   }
 }

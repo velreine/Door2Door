@@ -19,7 +19,7 @@ public class RoomControllerTest
     private static readonly RoomType KnownExistingRoomType = new RoomType()
     {
         Id = 1,
-        Type = "Classroom"
+        Name = "Classroom"
     };
     
     // Arrange (for multiple)

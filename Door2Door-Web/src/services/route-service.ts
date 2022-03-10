@@ -21,7 +21,7 @@ export class RouteService {
 
     // For lack of knowledge of a better way to map the data coming straight from the api to our Route model.
     return new Promise<Route>((resolve, reject) => {
-      let data = this._http
+      this._http
         .get<any>(environment.apiUrl + '/Route/GetRoute', {
           params: {
             destinationRoomId: destinationRoomId.toString(),
@@ -41,7 +41,7 @@ export class RouteService {
     });
   }
 
-  public GetStatringPoint(id: number): Promise<GeoJsonObject> {
+  public GetStartingPoint(id: number): Promise<GeoJsonObject> {
     return new Promise<GeoJsonObject>((resolve, reject) => {
       this._http
         .get<any>(environment.apiUrl + '/Route/GetStartingPoint', {
@@ -51,8 +51,8 @@ export class RouteService {
         })
         .toPromise()
         .then((value) => {
-          const parsedAsJson = JSON.parse(value);
-          resolve(parsedAsJson)
+          console.log(value);
+          resolve(value)
         })
         .catch((error) => {
           reject(error);
