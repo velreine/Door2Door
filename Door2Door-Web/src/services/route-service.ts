@@ -4,8 +4,6 @@ import { Injectable } from '@angular/core';
 import { Route } from 'src/app/model/Route';
 import { GeoJsonObject } from 'geojson';
 
-type GeoJson = GeoJsonObject;
-
 @Injectable({
   providedIn: 'root',
 })
@@ -31,10 +29,9 @@ export class RouteService {
         })
         .toPromise()
         .then((value) => {
-
           const parsedGeometries = value.geometries.map((v) => {
             return JSON.parse(v);
-          })
+          });
 
           resolve(new Route(sourceRoomId, destinationRoomId, parsedGeometries));
         })
@@ -44,14 +41,22 @@ export class RouteService {
     });
   }
 
-  public GetStatringPoint(id: number) : Promise<GeoJson> {
-    return this._http
-    .get<GeoJson>(environment.apiUrl + '/Route/GetStartingPoint', {
-      params: {
-        id: id.toString(),
-      },
-    })
-    .toPromise();
+  public GetStatringPoint(id: number): Promise<GeoJsonObject> {
+    return new Promise<GeoJsonObject>((resolve, reject) => {
+      this._http
+        .get<any>(environment.apiUrl + '/Route/GetStartingPoint', {
+          params: {
+            id: id.toString(),
+          },
+        })
+        .toPromise()
+        .then((value) => {
+          const parsedAsJson = JSON.parse(value);
+          resolve(parsedAsJson)
+        })
+        .catch((error) => {
+          reject(error);
+        })
+    });
   }
-
 }

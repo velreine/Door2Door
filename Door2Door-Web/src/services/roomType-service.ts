@@ -1,30 +1,20 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Room } from 'src/app/model/Room';
 import { Injectable } from '@angular/core';
+import { RoomType } from 'src/app/model/RoomType';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
-export class RoomService {
+export class RoomTypeService {
   constructor(private _http: HttpClient) { }
 
-  public GetAllRooms(): Promise<Room[]> {
+  public GetAllRoomTypes(): Promise<RoomType[]> {
     return this._http
-      .get<Room[]>(environment.apiUrl + '/Room/GetAllRooms', {
+      .get<RoomType[]>(environment.apiUrl + '/Room/GetAllRoomTypes', {
         headers: new HttpHeaders({
           'Access-Control-Allow-Origin': '*',
         }),
-      })
-      .toPromise();
-  }
-
-  public GetRoomById(id: number) : Promise<Room> {
-    return this._http
-      .get<Room>(environment.apiUrl + '/Room/GetRoomById', {
-        params: {
-          id: id,
-        },
       })
       .toPromise();
   }

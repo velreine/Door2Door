@@ -70,8 +70,6 @@ export class AppComponent {
           // Add this layer to the map.
           this._map.addLayer(layer);
         });
-
-        //this._map.addLayer(L.geoJSON(response.Geometry));
       })
       .catch((error) => {
         console.error(error);
@@ -172,7 +170,7 @@ export class AppComponent {
         let options = data.map((room) => {
           return {
             value: room.id,
-            label: room.name,
+            label: room.name + ' - ' + room.type.name,
           };
         });
 
