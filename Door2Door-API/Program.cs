@@ -49,8 +49,6 @@ NpgsqlConnection.GlobalTypeMapper.UseNetTopologySuite();
 
 var app = builder.Build();
 
-Console.WriteLine("Does this hit the run window???");
-
 
 
 // Configure the HTTP request pipeline.
