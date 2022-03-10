@@ -12,7 +12,6 @@ namespace Door2Door_API.Controllers
     public class RoomController : ControllerBase
     {
         private readonly IRoomRepository roomRepository;
-        private readonly IFactory<Room> roomFactory;
 
         private readonly string connectionString;
         
@@ -24,7 +23,6 @@ namespace Door2Door_API.Controllers
         {
             this.roomRepository = roomRepository;
             connectionString = Environment.GetEnvironmentVariable("foo");
-            roomFactory = new RoomFactory();
 
             if (connectionString == null)
                 Console.WriteLine("No connectionstring");

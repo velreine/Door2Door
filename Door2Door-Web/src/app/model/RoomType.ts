@@ -1,10 +1,7 @@
-export enum RoomType {
-  Classroom, // 0
-  Toilet, // 1
-  Office, // 2
-  Utility, // 3
-  Kitchen, // 4
+export class RoomType {
+  constructor(
+    // Scalar fields.
+    public id: Number,
+    public type: Text
+  ) {}
 }
-
-
-// 

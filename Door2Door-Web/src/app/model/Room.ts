@@ -4,7 +4,6 @@ import { PointOfEntry } from "./PointOfEntry";
 import { Geometry } from "./Geometry";
 
 export class Room extends Geometry {
-  
 
   constructor(
     // Scalar fields.

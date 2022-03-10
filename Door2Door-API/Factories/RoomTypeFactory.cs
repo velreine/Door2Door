@@ -9,8 +9,8 @@ public class RoomTypeFactory : IFactory<RoomType>
     {
         var res = new RoomType
         {
-            Id = (long)record["id"],
-            Type = record["room_type"].ToString()!
+            Id = (int)record["room_type_id"],
+            Type = record["type"].ToString()!
         };
         return res;
     }

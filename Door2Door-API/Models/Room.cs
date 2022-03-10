@@ -12,7 +12,7 @@ public class Room
     // Makes it easier since converting Geometry Data Type to JSON String is hard in C#/.NET
     public string Geometry { get; set; }
     
-    public long Type { get; set; }
+    public RoomType Type { get; set; }
     
     public string Name { get; set; }
 }
