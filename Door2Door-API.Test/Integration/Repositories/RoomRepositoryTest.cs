@@ -31,7 +31,7 @@ public class RoomRepositoryTest : IDisposable
 
     private static readonly string[] TeardownSql =
     {
-        "DROP SCHEMA IF EXISTS run_%testRunId%;"
+        "DROP SCHEMA IF EXISTS run_%testRunId% CASCADE;"
     };
     
     public RoomRepositoryTest()
@@ -46,6 +46,7 @@ public class RoomRepositoryTest : IDisposable
         // Setup Services.
         var services = new ServiceCollection();
         services.AddTransient<IFactory<Room>, RoomFactory>();
+        services.AddTransient<IFactory<RoomType>, RoomTypeFactory>();
         var provider = services.BuildServiceProvider();
         
         this._roomFactory = provider.GetService<IFactory<Room>>()!;

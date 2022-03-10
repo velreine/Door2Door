@@ -1,8 +1,7 @@
 ﻿using System.Data;
 using System.Diagnostics.CodeAnalysis;
-using Npgsql;
 
-namespace Door2Door_API;
+namespace Door2Door_API.ExtensionMethods;
 
 public static class DataReaderExtension
 {
