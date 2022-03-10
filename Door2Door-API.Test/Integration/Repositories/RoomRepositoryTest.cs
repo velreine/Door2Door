@@ -36,12 +36,8 @@ public class RoomRepositoryTest : IDisposable
     
     public RoomRepositoryTest()
     {
-        IFactory<Room> roomFactory;
-        var testConnectionString = Environment.GetEnvironmentVariable("testConnectionString");
-        
-        // Then create a connection to the newly created test database.
-        var testDebugConnectionString = $"Server=192.168.1.102;Port=5432;Database=door2door_test;User Id=postgres;Password=12345";
-        this._testConnection = new NpgsqlConnection(testDebugConnectionString);
+        // Create a test connection.
+        this._testConnection = new NpgsqlConnection(Environment.GetEnvironmentVariable("TEST_CONNECTION_STRING"));
         
         // Setup Services.
         var services = new ServiceCollection();

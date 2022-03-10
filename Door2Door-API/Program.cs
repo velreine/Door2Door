@@ -4,6 +4,28 @@ using Door2Door_API.Models.Interfaces;
 using Npgsql;
 using RouteModel = Door2Door_API.Models.Route;
 
+
+var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
+var testConnectionString = Environment.GetEnvironmentVariable("TEST_CONNECTION_STRING");
+
+if (connectionString is null)
+{
+    throw new Exception(
+        "EXCEPTION: ENVIRONMENT VARIABLE \"CONNECTION_STRING\" IS UNSET, THE API CANNOT RUN WITHOUT IT.");
+}
+
+if (testConnectionString is null)
+{
+    Console.WriteLine("WARNING: ENVIRONMENT VARIABLE \"TEST_CONNECTION_STRING\" IS UNSET, THIS MEANS TEST CANNOT RUN PROPERLY.");
+}
+
+if (connectionString is not null && testConnectionString is not null && testConnectionString == connectionString)
+{
+    throw new Exception(
+        "EXCEPTION: ENVIRONMENT VARIABLE \"CONNECTION_STRING\" AND \"TEST_CONNECTION_STRING\" IS THE SAME, THIS IS SURELY NOT WHAT YOU WANT."
+    );
+}
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Open CORS because YOLO
@@ -19,15 +41,14 @@ builder.Services.AddCors(options =>
 
 // Access the IConfiguration service
 var provider = builder.Services.BuildServiceProvider();
-var configuration = provider.GetRequiredService<IConfiguration>(); // For testing. Delete the hardcoded string and add env variable.
-
 
 // Add services to the container.
 builder.Services.AddControllers();
 
 // Injecting the IDbConnection for NpgSql
-builder.Services.AddTransient<IDbConnection>((sp =>
-    new NpgsqlConnection(configuration.GetConnectionString("NpgSqlConnection"))));
+builder.Services.AddTransient<IDbConnection>(sp =>
+    new NpgsqlConnection(Environment.GetEnvironmentVariable("CONNECTION_STRING"))
+);
 
 // Register repositories here
 builder.Services.AddScoped<IRoomRepository, RoomRepository>();
@@ -46,10 +67,7 @@ builder.Services.AddSwaggerGen();
 // Register PostGIS Type-mappings for Npgsql
 NpgsqlConnection.GlobalTypeMapper.UseNetTopologySuite();
 
-
 var app = builder.Build();
-
-
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
