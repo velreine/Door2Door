@@ -1,8 +1,4 @@
-﻿using Door2Door_API.Models.Interfaces;
-using GeoJSON.Net;
-using NetTopologySuite.Geometries;
-
-namespace Door2Door_API.Models;
+﻿namespace Door2Door_API.Models;
 
 public class Room
 {

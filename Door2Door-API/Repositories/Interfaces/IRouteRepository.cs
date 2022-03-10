@@ -1,4 +1,6 @@
-namespace Door2Door_API.Models.Interfaces;
+using Route = Door2Door_API.Models.Route;
+
+namespace Door2Door_API.Repositories.Interfaces;
 
 public interface IRouteRepository : IRepository
 {

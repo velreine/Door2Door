@@ -1,7 +1,8 @@
 ﻿using System.Data;
-using Door2Door_API.Models.Interfaces;
+using Door2Door_API.Factories.Interfaces;
+using Door2Door_API.Models;
 
-namespace Door2Door_API.Models;
+namespace Door2Door_API.Factories;
 
 public class RoomTypeFactory : IFactory<RoomType>
 {

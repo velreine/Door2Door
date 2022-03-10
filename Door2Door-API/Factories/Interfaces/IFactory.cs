@@ -1,7 +1,6 @@
 ﻿using System.Data;
-using Npgsql;
 
-namespace Door2Door_API.Models.Interfaces;
+namespace Door2Door_API.Factories.Interfaces;
 
 public interface IFactory<out T>
 {

@@ -1,6 +1,6 @@
 ﻿using System.Data;
 
-namespace Door2Door_API.Models;
+namespace Door2Door_API.Repositories;
 
 public abstract class BaseRepository
 {

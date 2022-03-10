@@ -1,6 +1,6 @@
 ﻿using System.Net;
 using Door2Door_API.Models;
-using Door2Door_API.Models.Interfaces;
+using Door2Door_API.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Door2Door_API.Controllers;

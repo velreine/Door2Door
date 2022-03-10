@@ -1,11 +1,9 @@
 using System.Data;
 using Door2Door_API.ExceptionTypes;
-using Door2Door_API.Models.Interfaces;
-using GeoJSON.Net;
-using NetTopologySuite.Geometries;
-using Npgsql;
+using Door2Door_API.Factories.Interfaces;
+using Route = Door2Door_API.Models.Route;
 
-namespace Door2Door_API.Models;
+namespace Door2Door_API.Factories;
 
 public class RouteFactory : IFactory<Route>
 {

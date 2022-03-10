@@ -1,8 +1,10 @@
 using System.Data;
 using Dapper;
-using Door2Door_API.Models.Interfaces;
+using Door2Door_API.Factories.Interfaces;
+using Door2Door_API.Repositories.Interfaces;
+using Route = Door2Door_API.Models.Route;
 
-namespace Door2Door_API.Models;
+namespace Door2Door_API.Repositories;
 
 public class RouteRepository : BaseRepository,IRouteRepository
 {

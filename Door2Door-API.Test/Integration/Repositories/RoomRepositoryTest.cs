@@ -1,8 +1,10 @@
 using System;
 using System.Data;
 using Dapper;
+using Door2Door_API.Factories;
+using Door2Door_API.Factories.Interfaces;
 using Door2Door_API.Models;
-using Door2Door_API.Models.Interfaces;
+using Door2Door_API.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 using Npgsql;
 using Xunit;

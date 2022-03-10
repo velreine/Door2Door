@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using Door2Door_API.Controllers;
 using Door2Door_API.Models;
-using Door2Door_API.Models.Interfaces;
+using Door2Door_API.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;

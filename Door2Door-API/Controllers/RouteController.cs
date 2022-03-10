@@ -1,7 +1,7 @@
 using System.Net;
 using Door2Door_API.ExceptionTypes;
 using Door2Door_API.Models;
-using Door2Door_API.Models.Interfaces;
+using Door2Door_API.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using RouteModel = Door2Door_API.Models.Route;
 

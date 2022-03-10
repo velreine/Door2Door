@@ -1,6 +1,9 @@
 using System.Data;
+using Door2Door_API.Factories;
+using Door2Door_API.Factories.Interfaces;
 using Door2Door_API.Models;
-using Door2Door_API.Models.Interfaces;
+using Door2Door_API.Repositories;
+using Door2Door_API.Repositories.Interfaces;
 using Npgsql;
 using RouteModel = Door2Door_API.Models.Route;
 

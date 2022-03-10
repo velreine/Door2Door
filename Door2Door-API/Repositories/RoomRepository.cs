@@ -1,9 +1,11 @@
 ﻿using System.Data;
 using Dapper;
 using Door2Door_API.ExtensionMethods;
-using Door2Door_API.Models.Interfaces;
+using Door2Door_API.Factories.Interfaces;
+using Door2Door_API.Models;
+using Door2Door_API.Repositories.Interfaces;
 
-namespace Door2Door_API.Models;
+namespace Door2Door_API.Repositories;
 
 public class RoomRepository : BaseRepository, IRoomRepository
 {

@@ -1,4 +1,6 @@
-﻿public class RoomType
+﻿namespace Door2Door_API.Models;
+
+public class RoomType
 {
     public int Id { get; set; }
 
