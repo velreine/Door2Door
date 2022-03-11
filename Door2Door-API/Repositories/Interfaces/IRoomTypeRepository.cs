@@ -2,7 +2,7 @@
 
 namespace Door2Door_API.Repositories.Interfaces;
 
-public interface IRoomTypeRepository : IRepository, IEntityRepository<RoomType>
+public interface IRoomTypeRepository : IEntityRepository<RoomType>
 {
     
 }

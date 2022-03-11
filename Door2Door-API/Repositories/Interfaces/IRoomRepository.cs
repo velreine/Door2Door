@@ -2,7 +2,7 @@
 
 namespace Door2Door_API.Repositories.Interfaces;
 
-public interface IRoomRepository : IRepository, IEntityRepository<Room>
+public interface IRoomRepository : IEntityRepository<Room>
 {
     Task<IEnumerable<Room>> GetByTypeAsync(long typeId);
 }
