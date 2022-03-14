@@ -8,6 +8,10 @@ FROM nginx:alpine
 EXPOSE 80
 EXPOSE 443
 COPY --from=node /app/dist/Door2Door-Web/ /usr/share/nginx/html
+# Copy our NGINX configuration into the container.
+COPY --from=node /app/docker/nginx.default.conf /etc/nginx/conf.d/default.conf
+COPY --from=node /app/docker/frontend-cert.pem /etc/ssl/frontend-cert.pem
+COPY --from=node /app/docker/frontend-key.pem /etc/ssl/frontend-key.pem
 
 
 # When the container starts,
