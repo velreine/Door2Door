@@ -9,9 +9,10 @@ services:
 
     environment:
       NODE_ENV: production
-      API_URL: "http://api" # api because the docker dns resolution should be able to resolve api.
+      API_URL: "http://192.168.1.102" # Should be IP of the host, as this should be accessible from the client browser.
     ports:
-      - 3000:80
+      - 5000:80
+      - 5443:443
     networks:
       - frontend
     depends_on:
@@ -22,12 +23,16 @@ services:
       context: Door2Door-API/
       dockerfile: Dockerfile
     ports:
-      - 5206:80
+      - 3000:80
+      - 3443:443
     networks:
       - backend
       - frontend
     environment:
-      CONNECTION_STRING: "User Id=sa; Password=12345"
+      CONNECTION_STRING: "Server=192.168.1.102;Port=5432;Database=door2door;User Id=postgres;Password=CHANGE_ME_12345;"
+      ASPNETCORE_URLS: "htps://+;http://+"
+      ASPNETCORE_Kestrel__Certificates__Default__Password: "foobar"
+      ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/aspnet-api.pfx" 
     depends_on:
       - db
   db:
