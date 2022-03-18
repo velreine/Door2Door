@@ -1,23 +1,23 @@
 # Deployment
 
-API'en forventer at miljøvariablen "connection_string" er sat.
+API'en forventer at miljøvariablen "CONNECTION_STRING" er sat.
 
 **Linux** 
 
 ```bash
-export connectionString='postgres://user:pw@somehost/somedb'
+export CONNECTION_STRING='postgres://user:pw@somehost/somedb'
 ```
 
 **Windows**:
 
 ```bash
-SET connectionString="postgres://user:pw@somehost/somedb"
+SET CONNECTION_STRING="postgres://user:pw@somehost/somedb"
 ```
 
 **Docker**:
 
 ```bash
-docker run --name -e connectionString="postgres://user:pw@somehost/somedb" somecontainer somecontainer:latest
+docker run --name -e CONNECTION_STRING="postgres://user:pw@somehost/somedb" somecontainer somecontainer:latest
 ```
 
 
